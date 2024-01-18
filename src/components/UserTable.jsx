@@ -1,14 +1,23 @@
 import React, { useState } from "react"
 import { StyleSheet, View, Text, Pressable } from "react-native"
 import { Table, TableWrapper, Row, Cell } from "react-native-reanimated-table"
+import { useNavigation, useLinkTo } from "@react-navigation/native"
+import { Dimensions } from "react-native"
+
+// Get screen width
+const screenWidth = Dimensions.get("window").width
 
 const UserTable = (props) => {
+  const navigation = useNavigation()
+  const linkTo = useLinkTo()
   const [tableHead, setTableHead] = useState(["login", "id", "Details"])
   const [tableData, setTableData] = useState(props.users)
 
   //handledPress
   const handledPress = (user) => {
-    console.log("user:", user)
+    console.log("user", user)
+    linkTo("/user-details")
+    navigation.navigate("user-details", { user: user })
   }
 
   return (
@@ -28,9 +37,10 @@ const UserTable = (props) => {
                 data={user.id}
                 textStyle={styles.text}
               />
+
               <Pressable
                 style={styles.btnContainer}
-                onPress={() => handledPress(user.login)}
+                onPress={() => handledPress(user)}
               >
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>View</Text>
@@ -47,12 +57,13 @@ const UserTable = (props) => {
 const styles = StyleSheet.create({
   container: {
     width: "auto",
-    padding: 16,
     paddingTop: 30,
-    backgroundColor: "grey",
+    padding: screenWidth * 0.05,
+    backgroundColor: "#20232a",
   },
   table: {
-    width: "600px",
+    maxWidth: 600,
+    width: screenWidth * 0.9,
     borderColor: "transparent",
   },
   head: {
@@ -61,6 +72,7 @@ const styles = StyleSheet.create({
     height: 40,
     textAlign: "center",
     backgroundColor: "#808B97",
+    textTransform: "uppercase",
   },
   text: { margin: 6, textAlign: "center" },
   row: {
@@ -68,7 +80,7 @@ const styles = StyleSheet.create({
     width: "auto",
     flexDirection: "row",
     flex: "auto",
-    backgroundColor: "#FFF1C1",
+    backgroundColor: "#eeeeee",
   },
   btnContainer: {
     width: "auto",
