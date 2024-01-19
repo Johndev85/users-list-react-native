@@ -44,7 +44,7 @@ const UserList = () => {
 
     if (users.length > 0) {
       setLoading(false)
-      setUsername([])
+      setUsername("")
     }
   }
 
