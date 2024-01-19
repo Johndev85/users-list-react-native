@@ -5,6 +5,7 @@ import { Chase } from "react-native-animated-spinkit"
 //components
 import UserTable from "../components/UserTable"
 import ErrorNotification from "../components/ErrorNotification"
+import FlashMessage, { showMessage } from "react-native-flash-message"
 
 const UserList = () => {
   const [username, setUsername] = useState("")
@@ -20,62 +21,88 @@ const UserList = () => {
     if (username === "") {
       setErrorMessage("Please enter a username")
       setLoading(false)
+      showMessage({
+        message: "Error",
+        description: "Please enter a username",
+        type: "danger",
+      })
       return
     }
 
     if (username.length < 4) {
       setErrorMessage("Username must be at least 4 characters")
       setLoading(false)
+      showMessage({
+        message: "Error",
+        description: "Username must be at least 4 characters",
+        type: "danger",
+      })
       return
     }
 
     if (username.toLowerCase() === "doublevpartners") {
       setErrorMessage('The username "doublevpartners" is not allowed.')
       setLoading(false)
+      showMessage({
+        message: "Error",
+        description: 'The username "doublevpartners" is not allowed.',
+        type: "danger",
+      })
       return
     }
 
     //add fetch api data
     fetch(`https://api.github.com/search/users?q=${username}&per_page=10`)
       .then((response) => response.json())
-      .then((data) => setUsers(data.items))
+      .then((data) => {
+        setUsers(data.items)
+        if (data.items.length > 0) {
+          setErrorMessage(null)
+          setUsername("")
+        } else {
+          setErrorMessage("No users found")
+          showMessage({
+            message: "Success",
+            description: "No users found",
+            type: "simple",
+          })
+          setUsername("")
+        }
+      })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false))
-
-    if (users.length > 0) {
-      setLoading(false)
-      setUsername("")
-    }
   }
 
-  console.log("users", users)
-
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter username"
-        placeholderTextColor="grey"
-        onChangeText={setUsername}
-        value={username}
-        onSubmitEditing={getDataUsers}
-      />
-      {errorMessage && <ErrorNotification message={errorMessage} />}
-      <Pressable style={styles.btn} onPress={getDataUsers}>
-        <Text style={styles.btnText}>Search</Text>
-      </Pressable>
-      {loading && (
-        <Chase
-          size={40}
-          color="#fff"
-          style={{
-            marginTop: 20,
-            marginBottom: 20,
-          }}
+    <>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter username"
+          placeholderTextColor="grey"
+          onChangeText={setUsername}
+          value={username}
+          onSubmitEditing={getDataUsers}
         />
-      )}
-      {users.length > 0 && <UserTable users={users} />}
-    </View>
+
+        {/* {errorMessage && <ErrorNotification message={errorMessage} />} */}
+        <Pressable style={styles.btn} onPress={getDataUsers}>
+          <Text style={styles.btnText}>Search</Text>
+        </Pressable>
+        {loading && (
+          <Chase
+            size={40}
+            color="#fff"
+            style={{
+              marginTop: 20,
+              marginBottom: 20,
+            }}
+          />
+        )}
+        {users.length > 0 && <UserTable users={users} />}
+      </View>
+      <FlashMessage position="top" />
+    </>
   )
 }
 

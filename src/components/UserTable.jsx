@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { StyleSheet, View, Text, Pressable } from "react-native"
+import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native"
 import { Table, TableWrapper, Row, Cell } from "react-native-reanimated-table"
 import { useNavigation, useLinkTo } from "@react-navigation/native"
 import { Dimensions } from "react-native"
@@ -24,31 +24,37 @@ const UserTable = (props) => {
     <View style={styles.container}>
       <Table style={styles.table}>
         <Row data={tableHead} style={styles.head} textStyle={styles.text} />
-        {tableData.map((user, index) => (
-          <TableWrapper key={index} style={styles.row}>
-            <View style={styles.row}>
-              <Cell
-                key={user.id + Math.floor(Math.random() * 1000000)}
-                data={user.login}
-                textStyle={styles.text}
-              />
-              <Cell
-                key={user.id + Math.floor(Math.random() * 1000000)}
-                data={user.id}
-                textStyle={styles.text}
-              />
+        <ScrollView horizontal={false}>
+          {tableData.map((user, index) => (
+            <TableWrapper
+              key={index}
+              borderStyle={{ borderWidth: 2, borderColor: "blue" }}
+              style={styles.row}
+            >
+              <View style={styles.row}>
+                <Cell
+                  key={user.id + Math.floor(Math.random() * 1000000)}
+                  data={user.login}
+                  textStyle={styles.text}
+                />
+                <Cell
+                  key={user.id + Math.floor(Math.random() * 1000000)}
+                  data={user.id}
+                  textStyle={styles.text}
+                />
 
-              <Pressable
-                style={styles.btnContainer}
-                onPress={() => handledPress(user)}
-              >
-                <View style={styles.btn}>
-                  <Text style={styles.btnText}>View</Text>
-                </View>
-              </Pressable>
-            </View>
-          </TableWrapper>
-        ))}
+                <Pressable
+                  style={styles.btnContainer}
+                  onPress={() => handledPress(user)}
+                >
+                  <View style={styles.btn}>
+                    <Text style={styles.btnText}>View</Text>
+                  </View>
+                </Pressable>
+              </View>
+            </TableWrapper>
+          ))}
+        </ScrollView>
       </Table>
     </View>
   )

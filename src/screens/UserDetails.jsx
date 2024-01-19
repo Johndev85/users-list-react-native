@@ -33,10 +33,10 @@ const UserDetails = () => {
         </View>
         <Card.Content style={styles.content}>
           <View style={styles.textTitle}>
-            <Text variant="titleLarge" style={styles.text}>
+            <Text variant="titleMedium" style={styles.text}>
               Login: {user.login}
             </Text>
-            <Text variant="titleLarge" style={styles.text}>
+            <Text variant="titleMedium" style={styles.text}>
               ID # {user.id}
             </Text>
           </View>
