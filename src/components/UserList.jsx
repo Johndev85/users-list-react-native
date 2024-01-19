@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from "react"
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native"
+import React, { useState } from "react"
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  ScrollView,
+} from "react-native"
 import { Chase } from "react-native-animated-spinkit"
 
 //components
 import UserTable from "../components/UserTable"
-import ErrorNotification from "../components/ErrorNotification"
 import FlashMessage, { showMessage } from "react-native-flash-message"
+import FollowersChart from "./FollowersChart"
 
 const UserList = () => {
   const [username, setUsername] = useState("")
   const [users, setUsers] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const getDataUsers = () => {
     setLoading(true)
-    setErrorMessage(null)
     setUsers([])
-
     if (username === "") {
-      setErrorMessage("Please enter a username")
       setLoading(false)
       showMessage({
         message: "Error",
@@ -30,7 +33,6 @@ const UserList = () => {
     }
 
     if (username.length < 4) {
-      setErrorMessage("Username must be at least 4 characters")
       setLoading(false)
       showMessage({
         message: "Error",
@@ -41,7 +43,6 @@ const UserList = () => {
     }
 
     if (username.toLowerCase() === "doublevpartners") {
-      setErrorMessage('The username "doublevpartners" is not allowed.')
       setLoading(false)
       showMessage({
         message: "Error",
@@ -57,10 +58,8 @@ const UserList = () => {
       .then((data) => {
         setUsers(data.items)
         if (data.items.length > 0) {
-          setErrorMessage(null)
           setUsername("")
         } else {
-          setErrorMessage("No users found")
           showMessage({
             message: "Success",
             description: "No users found",
@@ -76,30 +75,34 @@ const UserList = () => {
   return (
     <>
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter username"
-          placeholderTextColor="grey"
-          onChangeText={setUsername}
-          value={username}
-          onSubmitEditing={getDataUsers}
-        />
-
-        {/* {errorMessage && <ErrorNotification message={errorMessage} />} */}
-        <Pressable style={styles.btn} onPress={getDataUsers}>
-          <Text style={styles.btnText}>Search</Text>
-        </Pressable>
-        {loading && (
-          <Chase
-            size={40}
-            color="#fff"
-            style={{
-              marginTop: 20,
-              marginBottom: 20,
-            }}
+        <ScrollView>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter username"
+            placeholderTextColor="grey"
+            onChangeText={setUsername}
+            value={username}
+            onSubmitEditing={getDataUsers}
           />
-        )}
-        {users.length > 0 && <UserTable users={users} />}
+          <Pressable style={styles.btn} onPress={getDataUsers}>
+            <Text style={styles.btnText}>Search</Text>
+          </Pressable>
+          {loading && (
+            <Chase
+              size={40}
+              color="#fff"
+              style={{
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+            />
+          )}
+          {users.length > 0 && <UserTable users={users} />}
+          {users.length > 0 && (
+            <Text style={styles.title}>Followers Chart</Text>
+          )}
+          {users.length > 0 && <FollowersChart users={users} />}
+        </ScrollView>
       </View>
       <FlashMessage position="top" />
     </>
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     width: "600px",
     height: "auto",
-    padding: 30,
+    padding: 5,
     backgroundColor: "#20232a",
     alignItems: "center",
     justifyContent: "center",
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   input: {
-    width: "60%",
+    width: "100%",
     height: 40,
     borderColor: "gray",
     backgroundColor: "#fff",

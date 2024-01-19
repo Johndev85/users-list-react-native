@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    gap: "5%",
+
     marginBottom: "2%",
   },
 
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
-    gap: "5%",
+
     marginBottom: "2%",
   },
   textColumn: {
