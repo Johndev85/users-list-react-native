@@ -1,9 +1,13 @@
 # User List APP React Native 0.72 And Expo
 
-<img src="../users-list/assets/capture.jpg"  width="200" height="400">
-<img src="../users-list/assets/capture2.jpg" width="200" height="400">
-<img src="../users-list/assets/capture3.jpg" width="200" height="400">
-<img src="../users-list/assets/capture4.jpg" width="200" height="400">
+<div>
+<img src="assets/capture.jpg"  width="200" height="400">
+<img src="assets/capture2.jpg" width="200" height="400">
+</div>
+<div>
+<img src="assets/capture3.jpg" width="200" height="400">
+<img src="assets/capture4.jpg" width="200" height="400">
+</div>
 
 Mobile App that obtain a list of users and show the information from your profiles, exploiting the Github Public API.
 
