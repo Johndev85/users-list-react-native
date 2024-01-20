@@ -12,7 +12,15 @@ const App = () => {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="main">
+        <Stack.Navigator
+          initialRouteName="main"
+          screenOptions={{
+            headerTitleStyle: {
+              fontWeight: "bold", // Cambia el estilo del título del encabezado
+            },
+            headerTitleAlign: "center", // Centra el título del encabezad
+          }}
+        >
           <Stack.Screen
             name={"main"}
             component={Main}

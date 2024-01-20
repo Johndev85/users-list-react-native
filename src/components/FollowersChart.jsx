@@ -55,7 +55,7 @@ const FollowersChart = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: 700,
+    maxWidth: 800,
     minWidth: 320,
     width: "100%",
     height: "auto",

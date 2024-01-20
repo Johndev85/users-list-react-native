@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native"
 import { Table, TableWrapper, Row, Cell } from "react-native-reanimated-table"
 import { useNavigation, useLinkTo } from "@react-navigation/native"
 import { Dimensions } from "react-native"
+import { Button } from "react-native-paper"
 
 // Get screen width
 const screenWidth = Dimensions.get("window").width
@@ -39,14 +40,22 @@ const UserTable = (props) => {
                 textStyle={styles.text}
               />
 
-              <Pressable
+              <Button
+                icon="camera"
+                mode="contained-tonal"
+                onPress={() => handledPress(user)}
+              >
+                <Text style={styles.btnText}>View</Text>
+              </Button>
+
+              {/* <Pressable
                 style={styles.btnContainer}
                 onPress={() => handledPress(user)}
               >
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>View</Text>
                 </View>
-              </Pressable>
+              </Pressable> */}
             </View>
           </TableWrapper>
         ))}
@@ -57,13 +66,12 @@ const UserTable = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "auto",
+    width: "100%",
     paddingTop: 30,
     padding: screenWidth * 0.05,
     backgroundColor: "#20232a",
   },
   table: {
-    maxWidth: 600,
     width: screenWidth * 0.9,
     borderColor: "transparent",
   },
@@ -83,20 +91,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#eeeeee",
   },
-  btnContainer: {
-    width: "auto",
-    flexDirection: "row",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   btn: {
     padding: "10px",
     width: 58,
     backgroundColor: "#78B7BB",
     borderRadius: 2,
   },
-  btnText: { textAlign: "center", color: "#fff" },
+  btnText: { textAlign: "center" },
 })
 
 export default UserTable

@@ -1,13 +1,11 @@
 import React, { useState } from "react"
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  ScrollView,
-} from "react-native"
+import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native"
 import { Chase } from "react-native-animated-spinkit"
+import { Button } from "react-native-paper"
+import { TextInput } from "react-native-paper"
+import { Dimensions } from "react-native"
+
+const screenWidth = Dimensions.get("window").width
 
 //components
 import UserTable from "../components/UserTable"
@@ -75,33 +73,48 @@ const UserList = () => {
   return (
     <>
       <View style={styles.container}>
-        <ScrollView>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter username"
-            placeholderTextColor="grey"
-            onChangeText={setUsername}
-            value={username}
-            onSubmitEditing={getDataUsers}
-          />
-          <Pressable style={styles.btn} onPress={getDataUsers}>
-            <Text style={styles.btnText}>Search</Text>
-          </Pressable>
-          {loading && (
-            <Chase
-              size={40}
-              color="#fff"
-              style={{
-                marginTop: 20,
-                marginBottom: 20,
+        <ScrollView style={styles.scroll}>
+          <View style={styles.subContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter username"
+              placeholderTextColor="grey"
+              value={username}
+              onChangeText={(username) => setUsername(username)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  getDataUsers()
+                }
               }}
             />
-          )}
-          {users.length > 0 && <UserTable users={users} />}
-          {users.length > 0 && (
-            <Text style={styles.title}>Followers Chart</Text>
-          )}
-          {users.length > 0 && <FollowersChart users={users} />}
+            <Button
+              style={styles.btn}
+              icon="rocket"
+              mode="contained"
+              onPress={getDataUsers}
+            >
+              Search
+            </Button>
+          </View>
+          <View style={styles.loader}>
+            {loading && (
+              <Chase
+                size={40}
+                color="#fff"
+                style={{
+                  marginTop: 20,
+                  marginBottom: 20,
+                }}
+              />
+            )}
+          </View>
+          <View>
+            {users.length > 0 && <UserTable users={users} />}
+            {users.length > 0 && (
+              <Text style={styles.title}>Followers Chart</Text>
+            )}
+            {users.length > 0 && <FollowersChart users={users} />}
+          </View>
         </ScrollView>
       </View>
       <FlashMessage position="top" />
@@ -111,10 +124,17 @@ const UserList = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "600px",
+    width: "100%",
     height: "auto",
-    padding: 5,
     backgroundColor: "#20232a",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  subContainer: {
+    marginTop: 30,
+    flex: 1,
+    width: screenWidth * 0.95,
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -125,21 +145,24 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   input: {
-    width: "100%",
+    width: 250,
     height: 40,
-    borderColor: "gray",
-    backgroundColor: "#fff",
-    borderWidth: 1,
     marginBottom: 20,
-    padding: 10,
+    padding: 5,
   },
   btn: {
-    backgroundColor: "blue",
+    width: 250,
     paddingTop: 10,
     paddingBottom: 10,
     paddingRight: 20,
     paddingLeft: 20,
     borderRadius: 5,
+  },
+  loader: {
+    width: "100%",
+    height: "auto",
+    alignItems: "center",
+    justifyContent: "center",
   },
   btnText: {
     color: "#fff",
