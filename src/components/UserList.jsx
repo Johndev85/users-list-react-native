@@ -73,49 +73,49 @@ const UserList = () => {
   return (
     <>
       <View style={styles.container} data-testid="userlist">
-        <ScrollView style={styles.scroll}>
-          <View style={styles.subContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter username"
-              placeholderTextColor="grey"
-              value={username}
-              onChangeText={(username) => setUsername(username)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  getDataUsers()
-                }
+        {/* <ScrollView style={styles.scroll}> */}
+        <View style={styles.subContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter username"
+            placeholderTextColor="grey"
+            value={username}
+            onChangeText={(username) => setUsername(username)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                getDataUsers()
+              }
+            }}
+          />
+          <Button
+            style={styles.btn}
+            icon="rocket"
+            mode="contained"
+            onPress={getDataUsers}
+          >
+            Search
+          </Button>
+        </View>
+        <View style={styles.loader}>
+          {loading && (
+            <Chase
+              size={40}
+              color="#fff"
+              style={{
+                marginTop: 20,
+                marginBottom: 20,
               }}
             />
-            <Button
-              style={styles.btn}
-              icon="rocket"
-              mode="contained"
-              onPress={getDataUsers}
-            >
-              Search
-            </Button>
-          </View>
-          <View style={styles.loader}>
-            {loading && (
-              <Chase
-                size={40}
-                color="#fff"
-                style={{
-                  marginTop: 20,
-                  marginBottom: 20,
-                }}
-              />
-            )}
-          </View>
-          <View>
-            {users.length > 0 && <UserTable users={users} />}
-            {users.length > 0 && (
-              <Text style={styles.title}>Followers Chart</Text>
-            )}
-            {users.length > 0 && <FollowersChart users={users} />}
-          </View>
-        </ScrollView>
+          )}
+        </View>
+        <View>
+          {users.length > 0 && <UserTable users={users} />}
+          {users.length > 0 && (
+            <Text style={styles.title}>Followers Chart</Text>
+          )}
+          {users.length > 0 && <FollowersChart users={users} />}
+        </View>
+        {/* </ScrollView> */}
       </View>
       <FlashMessage position="top" />
     </>
