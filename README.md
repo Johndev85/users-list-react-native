@@ -11,8 +11,6 @@
 
 Mobile App that obtain a list of users and show the information from your profiles, exploiting the Github Public API.
 
-API endpoint here: [https://tickets-api-production.up.railway.app/api/tickets](https://tickets-api-production.up.railway.app/api/tickets)
-
 ---
 
 ## Features
