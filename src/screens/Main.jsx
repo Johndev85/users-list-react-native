@@ -8,8 +8,8 @@ import UserList from "../components/UserList"
 const Main = () => {
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
-      <UserList />
+      <StatusBar style="auto" data-testid="statusbar" />
+      <UserList data-testid="userlist" />
     </View>
   )
 }
